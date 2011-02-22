@@ -18,3 +18,4 @@
 /debian/*stamp*
 /TAGS*
 /.tag-source
+/config.py

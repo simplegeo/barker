@@ -8,7 +8,9 @@ hosts. Pods are scripts written in the language of your choice that
 output JSON. Clive loads these pods on the fly to output
 (JSON-formatted) information about a given host.
 
-For now that is all, but there is definitely more to come!
+For now that is all, but there is definitely more to come! Clive is
+under active development and will change very frequently. Don't use it
+yet!
 
 Installation
 ============

@@ -34,7 +34,7 @@ def load_datum(filename, timeout=30):
         try:
             LOGGER.debug("Executing and parsing datum %s with timeout %s",
                          filename, timeout)
-            datum = (os.path.basename(filename), json.loads(get_datum_output()))
+            datum = (os.path.basename(filename), json.loads(get_datum_output(filename)))
         except OSError, exc:
             LOGGER.warning("OSError while executing datum plugin %s,"
                            "ignoring datum!", filename)
@@ -48,18 +48,18 @@ def load_datum(filename, timeout=30):
                        "ignoring datum!", filename)
     return datum
 
-def executablep(filename):
+def executable_file_p(filename):
     """Predicate to check if a given file is executable."""
     LOGGER.debug("Checking if %s is executable", filename)
-    return os.access(filename, os.X_OK)
+    return os.access(filename, os.X_OK) and not os.path.isdir(filename)
 
 def get_datum_files(dirname):
     """Returns the fully-qualified paths for the list of executable
     files in the specified directory. Does not recurse into
     subdirectories."""
     LOGGER.debug("Locating executable files in datum directory %s", dirname)
-    return ifilter(executablep, imap(partial(os.path.join, dirname),
-                                    os.listdir(dirname)))
+    return ifilter(executable_file_p, imap(partial(os.path.join, dirname),
+                                           os.listdir(dirname)))
 
 def load_datum_dir(dirname=config.DATUM_DIR, timeout=config.DATUM_TIMEOUT):
     """Concurrently loads the datum files in the given directory and
@@ -72,3 +72,6 @@ def load_datum_dir(dirname=config.DATUM_DIR, timeout=config.DATUM_TIMEOUT):
     LOGGER.debug("Loading datum files from directory %s with timeout %s",
                  dirname, timeout)
     return dict(ifilter(None, pool.imap(partial(load_datum, timeout=timeout), get_datum_files(dirname))))
+
+def clive_local_data_cmd():
+    print json.dumps(load_datum_dir(), sort_keys=True, indent=4)

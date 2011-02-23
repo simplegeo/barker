@@ -50,8 +50,12 @@ def load_datum(filename, timeout=30):
 
 def executable_file_p(filename):
     """Predicate to check if a given file is executable."""
-    LOGGER.debug("Checking if %s is an executable file", filename)
-    return os.access(filename, os.X_OK) and not os.path.isdir(filename)
+    result =  os.access(filename, os.X_OK) and not os.path.isdir(filename)
+    if result:
+        LOGGER.debug("%s is an executable file", filename)
+    else:
+        LOGGER.debug("%s is not an executable file", filename)
+    return result
 
 def get_datum_files(dirname):
     """Returns the fully-qualified paths for the list of executable

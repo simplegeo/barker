@@ -27,7 +27,8 @@ def load_datum(filename, timeout=30):
     """Attempts to execute a datum file, possibly with a timeout, and
     parse the output as JSON. If the execution times out or an error
     is encountered during execution, or if the output is not valid
-    JSON, this will return an empty dict."""
+    JSON, this will return an empty tuple. Otherwise, it will return
+    a tuple: (filename, parsed_output)"""
     datum = ()
     with eventlet.Timeout(timeout, False):
         try:

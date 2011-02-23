@@ -9,5 +9,5 @@ setup(name='clive',
       packages=find_packages(),
       install_requires=['kombu', 'eventlet'],
       entry_points={'console_scripts':
-                    [ 'clive-local-data = clive.datum:clive_local_data_cmd']}
+                    [ 'clive-pod = clive.pod:clive_pod_cmd']}
       )

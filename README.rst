@@ -12,6 +12,9 @@ For now that is all, but there is definitely more to come! Clive is
 under active development and will change very frequently. Don't use it
 yet!
 
+Clive will be open-source when it becomes actually useful and has
+stabilized somewhat.
+
 Installation
 ============
 For now, clone the repo, set up a virtualenv, and ``python setup.py

@@ -5,6 +5,7 @@ import logging
 import os
 from itertools import imap, ifilter
 from functools import partial
+from optparse import OptionParser
 try:
     import simplejson as json
 except ImportError:
@@ -77,5 +78,26 @@ def load_pod_dir(dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
                  dirname, timeout)
     return dict(ifilter(None, pool.imap(partial(load_pod, timeout=timeout), get_pod_files(dirname))))
 
+def load_pod_subset(pods, dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
+    """Concurrently loads only the specified pod files in the given
+    directory and returns a dict containing their output."""
+    if dirname[-1] != os.sep:
+        dirname += os.sep
+        LOGGER.info("Appended file separator to specified pod dir %s",
+                    dirname)
+    pool = eventlet.GreenPool()
+    LOGGER.debug("Loading specified pod files from directory %s with"
+                 "timeout %s", dirname, timeout)
+    return dict(ifilter(None, pool.imap(partial(load_pod, timeout=timeout),
+                                        ifilter(lambda p: os.path.basename(p) in pods,
+                                                get_pod_files(dirname)))))
+
+
 def clive_pod_cmd():
-    print json.dumps(load_pod_dir(), sort_keys=True, indent=4)
+    parser = OptionParser()
+    # TODO: Add option to control timeouts
+    (options, args) = parser.parse_args()
+    if len(args) > 0:
+        print json.dumps(load_pod_subset(args), sort_keys=True, indent=4)
+    else:
+        print json.dumps(load_pod_dir(), sort_keys=True, indent=4)

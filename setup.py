@@ -8,8 +8,6 @@ setup(name='clive',
       url='https://github.com/plathrop/clive',
       packages=find_packages(),
       install_requires=['kombu', 'eventlet'],
-      tests_require=['coverage',
-                     'nose',
-                     'mock>=0.6.0'],
-      test_suite="nose.collector"
+      entry_points={'console_scripts':
+                    [ 'clive-local-data = clive.datum:clive_local_data_cmd']}
       )

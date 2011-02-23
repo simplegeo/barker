@@ -7,6 +7,16 @@ import clive.config as config
 
 logger = logging.getLogger('clive')
 logger.setLevel(config.LOG_LEVEL)
-logger.addHandler(logging.handlers.RotatingFileHandler(config.LOG_FILE,
-                                                    maxBytes=config.LOG_MAX_BYTES,
-                                                    backupCount=config.LOG_COUNT))
+
+logfile_handler = logging.handlers.WatchedFileHandler(config.LOG_FILE)
+logfile_handler.setLevel(config.LOG_LEVEL)
+logfile_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+logfile_handler.setFormatter(logfile_formatter)
+logger.addHandler(logfile_handler)
+
+if config.CONSOLE_LOG:
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(config.LOG_LEVEL)
+    console_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    console_handler.setFormatter(console_formatter)
+    logger.addHandler(console_handler)

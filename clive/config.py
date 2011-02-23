@@ -8,6 +8,8 @@ LOG_COUNT = 5
 DATUM_DIR = '/tmp/datum'
 DATUM_TIMEOUT = 15
 
+CONSOLE_LOG = True
+
 try:
     execfile('/etc/clive/config.py')
 except IOError:

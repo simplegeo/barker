@@ -5,9 +5,8 @@ import logging
 import logging.handlers
 import clive.config as config
 
-LOG_FILE = config.LOG_FILE
 logger = logging.getLogger('clive')
-LOG.setLevel(config.LOG_LEVEL)
-LOG.addHandler(logging.handlers.RotatingFileHandler(LOG_FILE,
+logger.setLevel(config.LOG_LEVEL)
+logger.addHandler(logging.handlers.RotatingFileHandler(config.LOG_FILE,
                                                     maxBytes=config.LOG_MAX_BYTES,
                                                     backupCount=config.LOG_COUNT))

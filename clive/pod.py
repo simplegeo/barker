@@ -62,7 +62,7 @@ def get_pod_files(dirname):
     return ifilter(executable_file_p, imap(partial(os.path.join, dirname),
                                            os.listdir(dirname)))
 
-def load_pod_dir(dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
+def load_pod_dir(dirname=config.POD_DIR, timeout=None):
     """Concurrently loads the pod files in the given directory and
     returns a dict containing their output."""
     if dirname[-1] != os.sep:
@@ -74,7 +74,7 @@ def load_pod_dir(dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
                  dirname, timeout)
     return dict(ifilter(None, pool.imap(partial(load_pod, timeout=timeout), get_pod_files(dirname))))
 
-def load_pod_subset(pods, dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
+def load_pod_subset(pods, dirname=config.POD_DIR, timeout=None):
     """Concurrently loads only the specified pod files in the given
     directory and returns a dict containing their output."""
     if dirname[-1] != os.sep:
@@ -88,12 +88,24 @@ def load_pod_subset(pods, dirname=config.POD_DIR, timeout=config.POD_TIMEOUT):
                                         ifilter(lambda p: os.path.basename(p) in pods,
                                                 get_pod_files(dirname)))))
 
-
 def clive_pod_cmd():
-    parser = OptionParser()
-    # TODO: Add option to control timeouts
+    try:
+        default_timeout = config.POD_TIMEOUT
+    except AttributeError:
+        default_timeout = None
+    try:
+        default_pod_dir = config.POD_DIR
+    except AttributeError:
+        default_pod_dir = "/etc/clive/pod/"
+    parser = OptionParser(usage="usage: %prog [options] [pod...]")
+    parser.add_option("-t", "--timeout", help="Maximum amount of time to wait "
+                      "for a pod script to return a result.", type="int")
+    parser.add_option("-d", "--directory",
+                      help="Path to the directory containing pod scripts.")
+    parser.set_defaults(timeout=default_timeout,
+                        directory=default_pod_dir)
     (options, args) = parser.parse_args()
     if len(args) > 0:
-        print json.dumps(load_pod_subset(args), sort_keys=True, indent=4)
+        print json.dumps(load_pod_subset(args, dirname=default_pod_dir, timeout=options.timeout), sort_keys=True, indent=4)
     else:
-        print json.dumps(load_pod_dir(), sort_keys=True, indent=4)
+        print json.dumps(load_pod_dir(dirname=default_pod_dir, timeout=options.timeout), sort_keys=True, indent=4)

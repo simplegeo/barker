@@ -18,13 +18,7 @@ import clive.config as config
 
 LOGGER = logging.getLogger('clive.pod')
 
-def get_pod_output(filename):
-    """Executes a 'pod' file (an executable file which should output
-    JSON to stdout) and returns the output."""
-    LOGGER.debug("Executing pod file %s", filename)
-    return subprocess.Popen([filename], stdout=subprocess.PIPE).communicate()[0]
-
-def load_pod(filename, timeout=30):
+def load_pod(filename, timeout=None):
     """Attempts to execute a pod file, possibly with a timeout, and
     parse the output as JSON. If the execution times out or an error
     is encountered during execution, or if the output is not valid
@@ -35,7 +29,8 @@ def load_pod(filename, timeout=30):
         try:
             LOGGER.debug("Executing and parsing pod %s with timeout %s",
                          filename, timeout)
-            pod = (os.path.basename(filename), json.loads(get_pod_output(filename)))
+            proc = subprocess.Popen([filename], stdout=subprocess.PIPE)
+            pod = (os.path.basename(filename), json.loads(proc.communicate()[0]))
         except OSError, exc:
             LOGGER.warning("OSError while executing pod plugin %s,"
                            "ignoring pod!", filename)
@@ -47,6 +42,7 @@ def load_pod(filename, timeout=30):
     if not pod:
         LOGGER.warning("Timed out while executing pod plugin %s,"
                        "ignoring pod!", filename)
+        proc.kill()
     return pod
 
 def executable_file_p(filename):

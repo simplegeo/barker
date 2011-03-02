@@ -25,24 +25,20 @@ def load_pod(filename, timeout=None):
     JSON, this will return an empty tuple. Otherwise, it will return
     a tuple: (filename, parsed_output)"""
     pod = ()
-    with eventlet.Timeout(timeout, False):
+    with eventlet.Timeout(timeout, None):
         try:
             LOGGER.debug("Executing and parsing pod %s with timeout %s",
                          filename, timeout)
             proc = subprocess.Popen([filename], stdout=subprocess.PIPE)
             pod = (os.path.basename(filename), json.loads(proc.communicate()[0]))
-        except OSError, exc:
-            LOGGER.warning("OSError while executing pod plugin %s,"
+        except (OSError, ValueError, TypeError), ex:
+            LOGGER.warning("Error executing pod plugin %s, ignoring pod!",
+                           filename)
+            LOGGER.debug(ex)
+        except eventlet.Timeout:
+            LOGGER.warning("Timed out while executing pod plugin %s,"
                            "ignoring pod!", filename)
-            LOGGER.debug(exc)
-        except (ValueError, TypeError), exc:
-            LOGGER.warning("Error while parsing output from pod plugin %s, "
-                           "ignoring pod!", filename)
-            LOGGER.debug(exc)
-    if not pod:
-        LOGGER.warning("Timed out while executing pod plugin %s,"
-                       "ignoring pod!", filename)
-        proc.kill()
+            proc.kill()
     return pod
 
 def executable_file_p(filename):

@@ -80,6 +80,8 @@ def load_pod_subset(pods, dirname=config.POD_DIR, timeout=None):
     pool = eventlet.GreenPool()
     LOGGER.debug("Loading specified pod files from directory %s with"
                  "timeout %s", dirname, timeout)
+    # The ifilter(None, ...) call here filters out the empty tuples
+    # from pods that could not be loaded.
     return dict(ifilter(None, pool.imap(partial(load_pod, timeout=timeout),
                                         ifilter(lambda p: os.path.basename(p) in pods,
                                                 get_pod_files(dirname)))))

@@ -17,6 +17,9 @@ FAKE_POD_OUTPUT = {"test-pod1.sh": {"shfoo": "shbar"},
                    "test-pod2.py": {"pyfoo": "pybar"},
                    "test-pod3.rb": {"rbfoo": "rbbar"}}
 
+FAKE_POD_SUBSET = {"test-pod1.sh": {"shfoo": "shbar"},
+                   "test-pod3.rb": {"rbfoo": "rbbar"}}
+
 def test_load_pod_with_errors():
     for klass in [OSError, ValueError, TypeError]:
         yield check_load_pod_with_error, klass
@@ -68,3 +71,11 @@ def test_load_pod_dir():
     mock_imap.return_value = FAKE_POD_OUTPUT.iteritems()
     with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
         assert_equals(clive.pod.load_pod_dir(), FAKE_POD_OUTPUT)
+
+def test_load_pod_subset():
+    mock_eventlet_greenpool = Mock()
+    mock_imap = mock_eventlet_greenpool.return_value.imap
+    mock_imap.return_value = FAKE_POD_SUBSET.iteritems()
+    with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
+        assert_equals(clive.pod.load_pod_subset(["test-pod1.sh", "test-pod3.rb"]),
+                      FAKE_POD_SUBSET)

@@ -68,18 +68,18 @@ def load_pod_dir(dirname=config.POD_DIR, timeout=None, filter_fn=None):
     pool = eventlet.GreenPool()
     LOGGER.debug("Loading pod files from directory %s with timeout %s",
                  dirname, timeout)
-    return dict(ifilter(filter_fn,
-                        # The ifilter(None, ...) call here filters out the empty tuples
-                        # from pods that could not be loaded.
-                        ifilter(None, pool.imap(partial(load_pod, timeout=timeout),
-                                                get_pod_files(dirname)))))
+    return dict(ifilter(filter_fn, pool.imap(partial(load_pod, timeout=timeout),
+                                             get_pod_files(dirname))))
 
 def get_pod_filter(pods):
     if len(pods) == 0:
-        return None
+        def pod_fn(pod):
+            return pod[1] != {} # Filter out empty pods
+        return pod_fn
     else:
         def pod_fn(pod):
-            return os.path.basename(pod[0]) in pods
+            # Filter out empty pods and those which were not specified.
+            return pod[1] != {} and os.path.basename(pod[0]) in pods
         return pod_fn
 
 def clive_pod_cmd():

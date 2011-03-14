@@ -77,5 +77,5 @@ def test_load_pod_subset():
     mock_imap = mock_eventlet_greenpool.return_value.imap
     mock_imap.return_value = FAKE_POD_SUBSET.iteritems()
     with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
-        assert_equals(clive.pod.load_pod_subset(["test-pod1.sh", "test-pod3.rb"]),
+        assert_equals(clive.pod.load_pod_dir(filter_fn=clive.pod.get_pod_filter(["test-pod1.sh", "test-pod3.rb"])),
                       FAKE_POD_SUBSET)

@@ -68,9 +68,9 @@ def load_pod_dir(dirname=config.POD_DIR, timeout=None, filter_fn=None):
     pool = eventlet.GreenPool()
     LOGGER.debug("Loading pod files from directory %s with timeout %s",
                  dirname, timeout)
-    # The ifilter(None, ...) call here filters out the empty tuples
-    # from pods that could not be loaded.
     return dict(ifilter(filter_fn,
+                        # The ifilter(None, ...) call here filters out the empty tuples
+                        # from pods that could not be loaded.
                         ifilter(None, pool.imap(partial(load_pod, timeout=timeout),
                                                 get_pod_files(dirname)))))
 
@@ -100,6 +100,6 @@ def clive_pod_cmd():
                         directory=default_pod_dir)
     (options, args) = parser.parse_args()
     print json.dumps(load_pod_dir(dirname=default_pod_dir,
-                                  timeout=options.timeout,
+                                  timeout=default_timeout,
                                   filter_fn=get_pod_filter(args)),
                      sort_keys=True, indent=4)

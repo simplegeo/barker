@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+from contextlib import closing
+try:
+    import simplejson as json
+except ImportError:
+    import json
+import urllib2 as url
+
+IGNORE_METADATA = ["public-keys/",
+                   "ami-manifest-path"]
+EC2_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
+pod = {}
+
+def get_datum(datum):
+    if datum == "block-device-mapping/":
+        devices = []
+        mapping = {}
+        with closing(url.urlopen(EC2_METADATA_URL + datum)) as fh:
+            devices = fh.read().split()
+        for device in devices:
+            with closing(url.urlopen(EC2_METADATA_URL + datum + device)) as fh:
+                mapping[device] = fh.read()
+        return mapping
+    elif datum == "placement/":
+        with closing(url.urlopen(EC2_METADATA_URL + datum + "/availability-zone")) as fh:
+            return fh.read()
+    elif datum == "security-groups":
+        with closing(url.urlopen(EC2_METADATA_URL + datum)) as fh:
+            return fh.read().split()
+    else:
+        with closing(url.urlopen(EC2_METADATA_URL + datum)) as fh:
+            return fh.read()
+
+# Low timeout because the call to the EC2 internal URL should be FAST.
+# If we timeout here, it is likely we are NOT in ec2.
+try:
+    with closing(url.urlopen(EC2_METADATA_URL, timeout=2)) as fh:
+        metadata = fh.read().split('\n')
+except url.URLError:
+    metadata = []
+
+for datum in metadata:
+    if datum not in IGNORE_METADATA:
+        pod[datum.rstrip("/")] = get_datum(datum)
+
+print json.dumps(pod, sort_keys=True, indent=4)

@@ -8,12 +8,12 @@ hosts. Pods are scripts written in the language of your choice that
 output JSON. Clive loads these pods on the fly to output
 (JSON-formatted) information about a given host.
 
-For now that is all, but there is definitely more to come! Clive is
-under active development and will change very frequently. Don't use it
-yet!
+Clive is capable of publishing the collected output of Pods as
+messages on an AMQP queue. See ``clive publish`` for more information.
 
-Clive will be open-source when it becomes actually useful and has
-stabilized somewhat.
+For now that is all, but there is definitely more to come! Clive is
+under active development and will change very frequently. You probably
+don't want to use it yet!
 
 Installation
 ============

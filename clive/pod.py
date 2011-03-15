@@ -44,10 +44,7 @@ def load_pod(filename, timeout=None):
 def executable_file_p(filename):
     """Predicate to check if a given file is executable."""
     result =  os.access(filename, os.X_OK) and not os.path.isdir(filename)
-    if result:
-        LOGGER.debug("%s is an executable file", filename)
-    else:
-        LOGGER.debug("%s is not an executable file", filename)
+    LOGGER.debug("%s %s an executable file", filename, "is" if result else "is not")
     return result
 
 def get_pod_files(dirname):

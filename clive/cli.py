@@ -95,8 +95,7 @@ def publish_cmd():
     parser = get_parser("publish")
     (options, args) = parser.parse_args(sys.argv[2:])
     if len(args) < 1:
-        sys.stderr.write("Must provide a queue host!\n")
-        return 1
+        parser.error("You must provide a queue hostname to publish to!")
     exchange = Exchange(options.exchange, type="fanout")
     queue = Queue(options.queue, exchange)
     connection = BrokerConnection(hostname=args[0],

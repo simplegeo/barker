@@ -44,8 +44,35 @@ be written following python syntax. Configuration parameters are:
   Boolean controlling whether clive outputs logs to the console as
   well as its log file. Can be one of ``True`` or ``False``
 
+``EXCHANGE``
+  Name of the exchange that ``clive-publish-pod`` will publish to.
+
+``QUEUE_NAME``
+  Name of the queue that ``clive-demo-listener`` will pull messages
+  from.
+
+``QUEUE_USER``
+  AMQP username to use when connecting to the queue service.
+
+``QUEUE_PASSWORD``
+  Password used to authenticate to the queue service.
+
+``QUEUE_VHOST``
+  AMQP virtual host to use when connecting to the queue service.
+
 Usage
 =====
-``clive-pod [pod ...]``
+``clive-pod [options ...] [pod ...]``
   Loads the specified PoD scripts (loads all by default) and outputs a
   JSON hash containing their individual data.
+
+``clive-demo-listener [options ...] queue_hostname``
+  Connects to the specified queue host and waits for a single pod
+  message, prints it out, acknowledges it, and exits. This is just a
+  demo for how you might listen for pod information on the queue.
+
+``clive-publish-pod [options ...] queue_hostname [pod ...]``
+  Connects to the specified queue host and publishes the specified
+  pod(s) (or all of them if none are specified) to a fanout
+  exchange. If no listeners are attached to the associated queues; the
+  messages will be dropped.

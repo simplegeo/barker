@@ -17,11 +17,7 @@ pod = {}
 
 def linux_get_meminfo():
     with open('/proc/meminfo') as fh:
-        return dict(imap(itemgetter(0,1),
-                         imap(methodcaller('split'),
-                              imap(methodcaller('replace', ":", ""),
-                                   imap(methodcaller('strip'),
-                                        fh.readlines())))))
+        return dict([line.strip().replace(":", "").split()[:2] for line in fh])
 
 def record_to_disk(record):
     return {'osname': record[3],
@@ -49,42 +45,45 @@ def record_to_cpu(record):
 
 def linux_get_cpuinfo():
     with open('/proc/cpuinfo') as fh:
+        cpuinfo = fh.readlines()
         return list(imap(record_to_cpu,
-                         grouper(24, ifilter(lambda l: l != "\n",
-                                             fh.readlines()))))
+                         grouper(cpuinfo.index('\n'),
+                                 ifilter(lambda l: l != "\n",
+                                         cpuinfo))))
 
-if SYSTEM == 'Linux':
-    if platform.linux_distribution()[0] == 'Debian':
-        with open('/etc/debian_version') as fh:
-            pod["operatingsystemrelease"] = fh.readline().strip()
-    if platform.linux_distribution()[0] == 'Ubuntu':
-        with open('/etc/issue') as fh:
-            release = fh.readline()
-        matcher = re.compile(r'Ubuntu (\d+\.\d+)')
-        pod["operatingsystemrelease"] = matcher.search(release).group(1).strip()
-    try:
-        pod["memory"] = linux_get_meminfo()
-    except:
-        pass
-    try:
-        pod["disks"] = linux_get_diskinfo()
-    except:
-        pass
-    try:
-        pod["cpu"] = linux_get_cpuinfo()
-    except:
-        pass
+if __name__ == '__main__':
+    if SYSTEM == 'Linux':
+        if platform.linux_distribution()[0] == 'Debian':
+            with open('/etc/debian_version') as fh:
+                pod["operatingsystemrelease"] = fh.readline().strip()
+        if platform.linux_distribution()[0] == 'Ubuntu':
+            with open('/etc/issue') as fh:
+                release = fh.readline()
+            matcher = re.compile(r'Ubuntu (\d+\.\d+)')
+            pod["operatingsystemrelease"] = matcher.search(release).group(1).strip()
+        try:
+            pod["memory"] = linux_get_meminfo()
+        except:
+            pass
+        try:
+            pod["disks"] = linux_get_diskinfo()
+        except:
+            pass
+        try:
+            pod["cpu"] = linux_get_cpuinfo()
+        except:
+            pass
 
-if SYSTEM == 'Darwin':
-    pod["operatingsystemrelease"] = platform.release().strip()
+    if SYSTEM == 'Darwin':
+        pod["operatingsystemrelease"] = platform.release().strip()
 
-pod["architecture"] = platform.architecture()
-pod["fqdn"] = socket.getfqdn()
-if "." in pod["fqdn"]:
-    pod["domain"] = ".".join(pod["fqdn"].split(".")[1:])
-    pod["hostname"] = pod["fqdn"].split(".")[0]
-else:
-    pod["hostname"] = pod["fqdn"]
-pod["operatingsystem"] = SYSTEM
+    pod["architecture"] = platform.architecture()
+    pod["fqdn"] = socket.getfqdn()
+    if "." in pod["fqdn"]:
+        pod["domain"] = ".".join(pod["fqdn"].split(".")[1:])
+        pod["hostname"] = pod["fqdn"].split(".")[0]
+    else:
+        pod["hostname"] = pod["fqdn"]
+        pod["operatingsystem"] = SYSTEM
 
-print json.dumps(pod, sort_keys=True, indent=4)
+    print json.dumps(pod, sort_keys=True, indent=4)

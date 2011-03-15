@@ -32,16 +32,15 @@ def get_datum(datum):
         with closing(url.urlopen(EC2_METADATA_URL + datum)) as fh:
             return fh.read()
 
-# Low timeout because the call to the EC2 internal URL should be FAST.
-# If we timeout here, it is likely we are NOT in ec2.
-try:
-    with closing(url.urlopen(EC2_METADATA_URL, timeout=2)) as fh:
-        metadata = fh.read().split('\n')
-except url.URLError:
-    metadata = []
-
-for datum in metadata:
-    if datum not in IGNORE_METADATA:
-        pod[datum.rstrip("/")] = get_datum(datum)
-
-print json.dumps(pod, sort_keys=True, indent=4)
+if __name__ == '__main__':
+    # Low timeout because the call to the EC2 internal URL should be FAST.
+    # If we timeout here, it is likely we are NOT in ec2.
+    try:
+        with closing(url.urlopen(EC2_METADATA_URL, timeout=2)) as fh:
+            metadata = fh.read().split('\n')
+    except url.URLError:
+        metadata = []
+    for datum in metadata:
+        if datum not in IGNORE_METADATA:
+            pod[datum.rstrip("/")] = get_datum(datum)
+    print json.dumps(pod, sort_keys=True, indent=4)

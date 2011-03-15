@@ -9,7 +9,8 @@ output JSON. Clive loads these pods on the fly to output
 (JSON-formatted) information about a given host.
 
 Clive is capable of publishing the collected output of Pods as
-messages on an AMQP queue. See ``clive publish`` for more information.
+messages on an AMQP queue. See ``clive help publish`` for more
+information.
 
 For now that is all, but there is definitely more to come! Clive is
 under active development and will change very frequently. You probably

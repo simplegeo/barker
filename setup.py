@@ -13,7 +13,5 @@ setup(name='clive',
                      'mock>=0.6.0'],
       test_suite="nose.collector",
       entry_points={'console_scripts':
-                    ['clive-pod = clive.pod:clive_pod_cmd',
-                     'clive-publish-pod = clive.publish:clive_publish_pod_cmd',
-                     'clive-demo-listener = clive.publish:clive_demo_listener_cmd']}
+                        ['clive = clive.cli:main']}
       )

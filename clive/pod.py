@@ -81,25 +81,3 @@ def get_pod_filter(pods):
             # Filter out empty pods and those which were not specified.
             return pod[1] != {} and os.path.basename(pod[0]) in pods
         return pod_fn
-
-def clive_pod_cmd():
-    try:
-        default_timeout = config.POD_TIMEOUT
-    except AttributeError:
-        default_timeout = None
-    try:
-        default_pod_dir = config.POD_DIR
-    except AttributeError:
-        default_pod_dir = "/etc/clive/pod/"
-    parser = OptionParser(usage="usage: %prog [options] [pod...]")
-    parser.add_option("-t", "--timeout", help="Maximum amount of time to wait "
-                      "for a pod script to return a result.", type="int")
-    parser.add_option("-d", "--directory",
-                      help="Path to the directory containing pod scripts.")
-    parser.set_defaults(timeout=default_timeout,
-                        directory=default_pod_dir)
-    (options, args) = parser.parse_args()
-    print json.dumps(load_pod_dir(dirname=default_pod_dir,
-                                  timeout=default_timeout,
-                                  filter_fn=get_pod_filter(args)),
-                     sort_keys=True, indent=4)

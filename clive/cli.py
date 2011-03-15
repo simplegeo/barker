@@ -85,10 +85,10 @@ def help_cmd():
 def pod_cmd():
     parser = get_parser("pod")
     (options, args) = parser.parse_args(sys.argv[2:])
-    print json.dumps(pod.load_pod_dir(dirname=options.directory,
-                                      timeout=options.timeout,
-                                      filter_fn=pod.get_pod_filter(options.pod)),
-                     sort_keys=True, indent=4)
+    json.dump(pod.load_pod_dir(dirname=options.directory,
+                               timeout=options.timeout,
+                               filter_fn=pod.get_pod_filter(options.pod)),
+              sys.stdout, sort_keys=True, indent=4)
     return 0
 
 def publish_cmd():

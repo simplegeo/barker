@@ -62,17 +62,23 @@ be written following python syntax. Configuration parameters are:
 
 Usage
 =====
-``clive-pod [options ...] [pod ...]``
+``clive help [command]``
+  Prints out a help message and exits. If a command is specified,
+  prints specific usage help for that clive command.
+
+``clive pod [options ...] [-p pod ...]``
   Loads the specified PoD scripts (loads all by default) and outputs a
   JSON hash containing their individual data.
 
-``clive-demo-listener [options ...] queue_hostname``
-  Connects to the specified queue host and waits for a single pod
-  message, prints it out, acknowledges it, and exits. This is just a
-  demo for how you might listen for pod information on the queue.
-
-``clive-publish-pod [options ...] queue_hostname [pod ...]``
+``clive publish [options ...] queue_hostname [-p pod ...]``
   Connects to the specified queue host and publishes the specified
   pod(s) (or all of them if none are specified) to a fanout
   exchange. If no listeners are attached to the associated queues; the
   messages will be dropped.
+
+Examples
+========
+``examples/demo-listener.py``
+  Connects to the specified queue host and waits for a single pod
+  message, prints it out, acknowledges it, and exits. This is just a
+  demo for how you might listen for pod information on the queue.

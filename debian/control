@@ -11,7 +11,7 @@ Build-Depends: cdbs,
  python-coverage,
  python-eventlet,
  python-kombu
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: https://github.com/simplegeo/clive
 
 Package: clive

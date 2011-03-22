@@ -1,5 +1,5 @@
 Source: clive
-Section: unknown
+Section: misc
 Priority: extra
 Maintainer: Paul Lathrop <paul@simplegeo.com>
 Build-Depends: cdbs,
@@ -19,8 +19,11 @@ Package: clive
 Architecture: all
 Depends: ${shlibs:Depends},
  ${misc:Depends},
+ python,
  python-eventlet,
  python-greenlet,
  python-kombu
-Description: Clive is a suite of pluggable tools which help you manage groups of servers.
-  Clive is a suite of pluggable tools which help you manage groups of servers.
+Description: A suite of pluggable tools which help you manage groups of servers.
+ A suite of pluggable tools which help you manage groups of
+ servers. Currently allows you to create arbitrary metadata and
+ publish it to a queue.

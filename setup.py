@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='clive',
-      version='0.1.0',
+      version="0.1.3",
       description='Clive is a hive mind for your clusters.',
       author='Paul Lathrop',
       author_email='paul@simplegeo.com',

@@ -1,3 +1,16 @@
+clive (0.1.3) lucid; urgency=low
+
+  [ Paul Lathrop ]
+  * we are testing clive, not dream
+  * format control file per recommendation from Ian
+  * correct architecture
+  * update version for release
+  * clean up lintian output
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Tue, 22 Mar 2011 18:33:02 +0000
+
 clive (0.1.0) unstable; urgency=low
 
   * Initial Release.

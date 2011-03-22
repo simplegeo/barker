@@ -7,6 +7,6 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
 
 install/python-clive::
-	python setup.py nosetests --with-coverage --cover-package=dream \
+	python setup.py nosetests --with-coverage --cover-package=clive \
 	    --with-xunit --xunit-file=$(ARTIFACTS)/xunit.xml
-	python-coverage xml --include="dream*" -o $(ARTIFACTS)/coverage.xml
+	python-coverage xml --include="clive*" -o $(ARTIFACTS)/coverage.xml

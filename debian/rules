@@ -6,7 +6,7 @@ DEB_PYTHON_SYSTEM=pysupport
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
 
-install/python-clive::
+install/clive::
 	python setup.py nosetests --with-coverage --cover-package=clive \
 	    --with-xunit --xunit-file=$(ARTIFACTS)/xunit.xml
 	python-coverage xml --include="clive*" -o $(ARTIFACTS)/coverage.xml

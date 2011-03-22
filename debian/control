@@ -10,12 +10,17 @@ Build-Depends: cdbs,
  python-nose,
  python-coverage,
  python-eventlet,
+ python-greenlet,
  python-kombu
 Standards-Version: 3.8.4
 Homepage: https://github.com/simplegeo/clive
 
 Package: clive
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-eventlet, python-kombu
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ python-eventlet,
+ python-greenlet,
+ python-kombu
 Description: Clive is a suite of pluggable tools which help you manage groups of servers.
   Clive is a suite of pluggable tools which help you manage groups of servers.

@@ -15,7 +15,7 @@ Standards-Version: 3.8.3
 Homepage: https://github.com/simplegeo/clive
 
 Package: clive
-Architecture: any
+Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, python-eventlet, python-kombu
 Description: Clive is a suite of pluggable tools which help you manage groups of servers.
   Clive is a suite of pluggable tools which help you manage groups of servers.

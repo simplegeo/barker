@@ -66,16 +66,26 @@ def test_get_pod_files():
                           ['/clive-tests/foo', '/clive-tests/bar', '/clive-tests/baz'])
 
 def test_load_pod_dir():
+    mock_os_listdir = Mock(return_value = ['foo', 'bar', 'baz'])
+    mock_pod_executable_file_p = mocksignature(clive.pod.executable_file_p)
+    mock_pod_executable_file_p.return_value = True
     mock_eventlet_greenpool = Mock()
     mock_imap = mock_eventlet_greenpool.return_value.imap
     mock_imap.return_value = FAKE_POD_OUTPUT.iteritems()
-    with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
-        assert_equals(clive.pod.load_pod_dir(), FAKE_POD_OUTPUT)
+    with patch.object(clive.pod.os, 'listdir', mock_os_listdir):
+        with patch.object(clive.pod, "executable_file_p", mock_pod_executable_file_p):
+            with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
+                assert_equals(clive.pod.load_pod_dir(), FAKE_POD_OUTPUT)
 
 def test_load_pod_subset():
+    mock_os_listdir = Mock(return_value = ['foo', 'bar', 'baz'])
+    mock_pod_executable_file_p = mocksignature(clive.pod.executable_file_p)
+    mock_pod_executable_file_p.return_value = True
     mock_eventlet_greenpool = Mock()
     mock_imap = mock_eventlet_greenpool.return_value.imap
     mock_imap.return_value = FAKE_POD_SUBSET.iteritems()
-    with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
-        assert_equals(clive.pod.load_pod_dir(filter_fn=clive.pod.get_pod_filter(["test-pod1.sh", "test-pod3.rb"])),
-                      FAKE_POD_SUBSET)
+    with patch.object(clive.pod.os, 'listdir', mock_os_listdir):
+        with patch.object(clive.pod, "executable_file_p", mock_pod_executable_file_p):
+            with patch.object(clive.pod.eventlet, 'GreenPool', mock_eventlet_greenpool):
+                assert_equals(clive.pod.load_pod_dir(filter_fn=clive.pod.get_pod_filter(["test-pod1.sh", "test-pod3.rb"])),
+                              FAKE_POD_SUBSET)

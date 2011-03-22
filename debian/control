@@ -1,0 +1,13 @@
+Source: clive
+Section: unknown
+Priority: extra
+Maintainer: Paul Lathrop <paul@simplegeo.com>
+Build-Depends: cdbs, debhelper (>= 7), python, python-support, python-setuptools, python-nose, python-coverage, python-eventlet, python-kombu
+Standards-Version: 3.8.3
+Homepage: https://github.com/simplegeo/clive
+
+Package: clive
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-eventlet, python-kombu
+Description: Clive is a suite of pluggable tools which help you manage groups of servers.
+  Clive is a suite of pluggable tools which help you manage groups of servers.

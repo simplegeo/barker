@@ -1,5 +1,5 @@
 Source: barker
-Section: unknown
+Section: misc
 Priority: extra
 Maintainer: Paul Lathrop <paul@simplegeo.com>
 Build-Depends: cdbs,

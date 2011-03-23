@@ -19,8 +19,11 @@ Package: barker
 Architecture: all
 Depends: ${shlibs:Depends},
  ${misc:Depends},
+ python,
  python-eventlet,
  python-greenlet,
  python-kombu
-Description: Barker is a suite of pluggable tools which help you manage groups of servers.
-  Barker is a suite of pluggable tools which help you manage groups of servers.
+Description: A suite of pluggable tools which help you manage groups of servers.
+ A suite of pluggable tools which help you manage groups of
+ servers. Currently allows you to create arbitrary metadata and
+ publish it to a queue.

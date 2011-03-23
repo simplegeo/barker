@@ -1,3 +1,12 @@
+barker (0.1.15) lucid; urgency=low
+
+  [ Paul Lathrop ]
+  * set section so package will upload
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 23 Mar 2011 00:35:01 +0000
+
 barker (0.1.14) lucid; urgency=low
 
   [ Paul Lathrop ]

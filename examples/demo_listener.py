@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Clive is Copyright 2011 SimpleGeo, Inc.
+# Barker is Copyright 2011 SimpleGeo, Inc.
 # Written by Paul Lathrop <paul@simplegeo.com>
 
 from optparse import OptionParser
@@ -7,8 +7,8 @@ import sys
 
 from kombu import BrokerConnection, Exchange, Queue, Producer, Consumer
 
-import clive.config as config
-from clive.pod import load_pod_dir, get_pod_filter
+import barker.config as config
+from barker.pod import load_pod_dir, get_pod_filter
 
 # Callback function for the demo listener.
 def demo_listen_and_print(body, message):
@@ -18,7 +18,7 @@ def demo_listen_and_print(body, message):
 if __name__ == '__main__':
     # TODO: Clean this craziness up!
     default_timeout = getattr(config, POD_TIMEOUT, None)
-    default_pod_dir = getattr(config, POD_DIR, "/etc/clive/pod/")
+    default_pod_dir = getattr(config, POD_DIR, "/etc/barker/pod/")
     parser = OptionParser(usage="usage: %prog [options] queue_host")
     parser.add_option("-e", "--exchange", help="Name of the 'exchange' to "
                       "send messages to (see AMQP for details). Defaults to "

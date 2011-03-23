@@ -1,7 +1,7 @@
 #
 # This file intentionally left blank.
 #
-# Clive is Copyright 2011 SimpleGeo, Inc.
+# Barker is Copyright 2011 SimpleGeo, Inc.
 # Written by Paul Lathrop <paul@simplegeo.com>
 
-import clive.log
+import barker.log

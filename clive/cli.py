@@ -1,4 +1,4 @@
-# Clive is Copyright 2011 SimpleGeo, Inc.
+# Barker is Copyright 2011 SimpleGeo, Inc.
 # Written by Paul Lathrop <paul@simplegeo.com>
 
 import logging
@@ -11,18 +11,18 @@ import sys
 
 from kombu import BrokerConnection, Exchange, Queue, Producer, Consumer
 
-import clive.config as config
-import clive.pod as pod
+import barker.config as config
+import barker.pod as pod
 
 OPTIONS={"directory": make_option("-d", "--directory", help="Path to the "
                                   "directory containing pod scripts. "
                                   "[default: \"%default\"]",
                                   default=getattr(config, 'POD_DIR',
-                                                  "/etc/clive/pod/")),
+                                                  "/etc/barker/pod/")),
          "exchange": make_option("-e", "--exchange", help="Name of the "
                                  "'exchange' to send messages to (see AMQP "
                                  "for details). [default: \"%default\"]",
-                                 default=getattr(config, 'EXCHANGE', "clive")),
+                                 default=getattr(config, 'EXCHANGE', "barker")),
          "password": make_option("--password", help="Password to use for the "
                                  "queue connection (see AMQP for details). "
                                  "[default: \"%default\"]",
@@ -34,7 +34,7 @@ OPTIONS={"directory": make_option("-d", "--directory", help="Path to the "
          "queue": make_option("-q", "--queue", help="Name of the 'queue' to "
                               "send messages to (see AMQP for details). "
                               "[default: \"%default\"]",
-                              default=getattr(config, 'QUEUE_NAME', "clive")),
+                              default=getattr(config, 'QUEUE_NAME', "barker")),
          "timeout": make_option("-t", "--timeout", help="Maximum amount of "
                                 "time (in seconds) to wait for a pod script to "
                                 "return a result. [default: %default]",
@@ -42,11 +42,11 @@ OPTIONS={"directory": make_option("-d", "--directory", help="Path to the "
          "userid": make_option("-u", "--userid", help="User ID to use for the "
                                "queue connection (see AMQP for details). "
                                "[default: \"%default\"]",
-                               default=getattr(config, 'QUEUE_USER', "clive")),
+                               default=getattr(config, 'QUEUE_USER', "barker")),
          "vhost": make_option("-v", "--vhost", help="Virtual host to connect to "
                               "on the queue host (see AMQP for details). "
                                  "[default: \"%default\"]",
-                              default=getattr(config, 'QUEUE_VHOST', "clive"))}
+                              default=getattr(config, 'QUEUE_VHOST', "barker"))}
 
 COMMANDS={"pod": {"options": ["timeout", "directory", "pod"],
                   "usage": "usage: %prog pod [options] [-p pod ...]",
@@ -65,7 +65,7 @@ def get_parser(command):
 
 def print_help(command=None):
     if command == "help":
-        print "Usage: clive [general_options] <command> [command_options] command_arguments"
+        print "Usage: barker [general_options] <command> [command_options] command_arguments"
         print
         print "Commands:"
         print "  %s\n    %s" % ("help", "Print this help message and exit.")
@@ -117,4 +117,4 @@ def main():
         command = "help"
     else:
         command = sys.argv[1]
-    return getattr(sys.modules['clive.cli'], "%s_cmd" % command)()
+    return getattr(sys.modules['barker.cli'], "%s_cmd" % command)()

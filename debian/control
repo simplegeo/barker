@@ -1,4 +1,4 @@
-Source: clive
+Source: barker
 Section: unknown
 Priority: extra
 Maintainer: Paul Lathrop <paul@simplegeo.com>
@@ -13,14 +13,14 @@ Build-Depends: cdbs,
  python-greenlet,
  python-kombu
 Standards-Version: 3.8.4
-Homepage: https://github.com/simplegeo/clive
+Homepage: https://github.com/simplegeo/barker
 
-Package: clive
+Package: barker
 Architecture: all
 Depends: ${shlibs:Depends},
  ${misc:Depends},
  python-eventlet,
  python-greenlet,
  python-kombu
-Description: Clive is a suite of pluggable tools which help you manage groups of servers.
-  Clive is a suite of pluggable tools which help you manage groups of servers.
+Description: Barker is a suite of pluggable tools which help you manage groups of servers.
+  Barker is a suite of pluggable tools which help you manage groups of servers.

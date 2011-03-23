@@ -1,4 +1,4 @@
-# Clive is Copyright 2011 SimpleGeo, Inc.
+# Barker is Copyright 2011 SimpleGeo, Inc.
 # Written by Paul Lathrop <paul@simplegeo.com>
 
 import logging
@@ -14,9 +14,9 @@ except ImportError:
 import eventlet
 from eventlet.green import subprocess
 
-import clive.config as config
+import barker.config as config
 
-LOGGER = logging.getLogger('clive.pod')
+LOGGER = logging.getLogger('barker.pod')
 
 def load_pod(filename, timeout=None):
     """Attempts to execute a pod file, possibly with a timeout, and

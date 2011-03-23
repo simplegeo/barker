@@ -1,11 +1,11 @@
-# Clive is Copyright 2011 SimpleGeo, Inc.
+# Barker is Copyright 2011 SimpleGeo, Inc.
 # Written by Paul Lathrop <paul@simplegeo.com>
 
 import logging
 import logging.handlers
-import clive.config as config
+import barker.config as config
 
-logger = logging.getLogger('clive')
+logger = logging.getLogger('barker')
 logger.setLevel(config.LOG_LEVEL)
 
 logfile_handler = logging.handlers.WatchedFileHandler(config.LOG_FILE)

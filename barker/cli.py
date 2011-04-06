@@ -85,10 +85,11 @@ def help_cmd():
 def pod_cmd():
     parser = get_parser("pod")
     (options, args) = parser.parse_args(sys.argv[2:])
-    json.dump(pod.load_pod_dir(dirname=options.directory,
+    pods = pod.load_pod_dir(dirname=options.directory,
                                timeout=options.timeout,
-                               filter_fn=pod.get_pod_filter(options.pod)),
-              sys.stdout, sort_keys=True, indent=4)
+                               filter_fn=pod.get_pod_filter(options.pod))
+    pods.update(pod.get_barker_metadata())
+    json.dump(pods, sys.stdout, sort_keys=True, indent=4)
     return 0
 
 def publish_cmd():
@@ -104,12 +105,13 @@ def publish_cmd():
                                   virtual_host=options.vhost)
     channel = connection.channel()
     producer = Producer(channel, exchange)
-    producer.publish(pod.load_pod_dir(dirname=options.directory,
+    pods = pod.load_pod_dir(dirname=options.directory,
                                       timeout=options.timeout,
                                       # The first arg is the queue hostname, the rest
                                       # will be pod names
-                                      filter_fn=pod.get_pod_filter(options.pod)),
-                     serializer="json", compression="zlib")
+                                      filter_fn=pod.get_pod_filter(options.pod))
+    pods.update(pod.get_barker_metadata())
+    producer.publish(pods, serializer="json", compression="zlib")
     return 0
 
 def main():

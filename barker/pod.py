@@ -10,6 +10,8 @@ try:
     import simplejson as json
 except ImportError:
     import json
+import sys
+import time
 
 import eventlet
 from eventlet.green import subprocess
@@ -78,3 +80,7 @@ def get_pod_filter(pods):
             # Filter out empty pods and those which were not specified.
             return pod[1] != {} and os.path.basename(pod[0]) in pods
         return pod_fn
+
+def get_barker_metadata():
+    return {"barker.META": {"timestamp": int(time.time()),
+                            "command": " ".join(sys.argv)}}

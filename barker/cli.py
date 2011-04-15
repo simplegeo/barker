@@ -97,7 +97,7 @@ def publish_cmd():
     (options, args) = parser.parse_args(sys.argv[2:])
     if len(args) < 1:
         parser.error("You must provide a queue hostname to publish to!")
-    exchange = Exchange(options.exchange, type="fanout")
+    exchange = Exchange(options.exchange, type="fanout", delivery_mode="transient")
     queue = Queue(options.queue, exchange)
     connection = BrokerConnection(hostname=args[0],
                                   userid=options.userid,
@@ -111,7 +111,8 @@ def publish_cmd():
                                       # will be pod names
                                       filter_fn=pod.get_pod_filter(options.pod))
     pods.update(pod.get_barker_metadata())
-    producer.publish(pods, serializer="json", compression="zlib")
+    producer.publish(pods, serializer="json", compression="zlib",
+                     delivery_mode="transient")
     return 0
 
 def main():

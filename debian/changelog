@@ -1,3 +1,12 @@
+barker (0.1.19) lucid; urgency=low
+
+  [ Paul Lathrop ]
+  * Okay, this makes Kombu sad. Reverting.
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Fri, 15 Apr 2011 19:21:03 +0000
+
 barker (0.1.18) lucid; urgency=low
 
   [ Paul Lathrop ]

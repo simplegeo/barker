@@ -1,3 +1,12 @@
+barker (0.1.64) maverick; urgency=low
+
+  [ Jeremy Grosser ]
+  * No compression
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Fri, 22 Jul 2011 22:37:48 +0000
+
 barker (0.1.63) maverick; urgency=low
 
   * UNRELEASED

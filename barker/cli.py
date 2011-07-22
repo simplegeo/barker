@@ -111,7 +111,7 @@ def publish_cmd():
                                       # will be pod names
                                       filter_fn=pod.get_pod_filter(options.pod))
     pods.update(pod.get_barker_metadata())
-    producer.publish(pods, serializer="json", compression="zlib")
+    producer.publish(pods, serializer="json")
     return 0
 
 def main():

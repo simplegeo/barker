@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='barker',
-      version="0.1.67",
+      version="0.1.68",
       description='Barker is a hive mind for your clusters.',
       author='Paul Lathrop',
       author_email='paul@simplegeo.com',

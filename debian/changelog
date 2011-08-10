@@ -1,3 +1,12 @@
+barker (0.1.69) maverick; urgency=low
+
+  [ mihasya ]
+  * add kernel release to barker pod
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 10 Aug 2011 20:35:19 +0000
+
 barker (0.1.68) maverick; urgency=low
 
   * UNRELEASED

@@ -11,6 +11,7 @@ try:
 except ImportError:
     import json
 import socket
+import subprocess
 
 SYSTEM = platform.system()
 pod = {}
@@ -51,6 +52,9 @@ def linux_get_cpuinfo():
                                  ifilter(lambda l: l != "\n",
                                          cpuinfo))))
 
+def linux_get_kernel_release():
+    return subprocess.Popen(['/bin/uname', '-r'], stdout=subprocess.PIPE).communicate()[0].strip()
+
 if __name__ == '__main__':
     if SYSTEM == 'Linux':
         if platform.linux_distribution()[0] == 'Debian':
@@ -73,6 +77,8 @@ if __name__ == '__main__':
             pod["cpu"] = linux_get_cpuinfo()
         except:
             pass
+
+        pod['kernelrelease'] = linux_get_kernel_release()
 
     if SYSTEM == 'Darwin':
         pod["operatingsystemrelease"] = platform.release().strip()
